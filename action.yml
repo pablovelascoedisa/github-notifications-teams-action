@@ -1,5 +1,9 @@
 name: GitHub Notifier for Teams
-description: ""
+description: "Send gihub issues and pull requests notifications via Teams channel"
+inputs:
+  teamsSecret:
+    description: 'Teams secret'
+    required: true
 runs: 
   using: "composite"
 
