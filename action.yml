@@ -1,0 +1,17 @@
+name: GitHub Notifier
+description: ""
+runs: 
+  using: "composite"
+
+  steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+
+      - name: Config Node.js & npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        shell: bash
+        run: npm install axios
