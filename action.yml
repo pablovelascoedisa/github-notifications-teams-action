@@ -1,4 +1,4 @@
-name: GitHub Notifier
+name: GitHub Notifier for Teams
 description: ""
 runs: 
   using: "composite"
@@ -15,3 +15,11 @@ runs:
       - name: Install dependencies
         shell: bash
         run: npm install axios
+
+      - name: Test variables
+        shell: bash
+        run: echo "${{ toJson(github.event) }}"
+
+      - name: Send teams message
+        shell: bash
+        run: node script.js
