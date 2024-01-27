@@ -1,9 +1,16 @@
 name: GitHub Notifier for Teams
 description: "Send gihub issues and pull requests notifications via Teams channel"
+author: "Pablo Velasco"
+
+branding:
+  icon: "bell"
+  color: "purple"
+
 inputs:
   teamsSecret:
     description: 'Teams secret'
     required: true
+  
 runs: 
   using: "composite"
 
