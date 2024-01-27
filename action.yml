@@ -16,10 +16,9 @@ runs:
         shell: bash
         run: npm install axios
 
-      - name: Test variables
-        shell: bash
-        run: echo "${{ toJson(github.event) }}"
-
       - name: Send teams message
         shell: bash
+        env:
+          CONTEXT: "${{toJson(github.event)}}"
+          TEAMS: ${{secrets.TEAMS}}
         run: node script.js
