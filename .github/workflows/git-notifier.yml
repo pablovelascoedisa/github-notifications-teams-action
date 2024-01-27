@@ -1,0 +1,29 @@
+name: GitHub Notifier
+
+on:
+    issues:
+        types:
+            - opened
+            - closed
+    pull_request:
+        types:
+            - opened
+            - closed
+
+jobs:
+
+    notifier:
+        
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout 
+              uses: actions/checkout@v2
+    
+            - name: Config Node.js & npm
+              uses: actions/setup-node@v3
+              with:
+                node-version: '20'
+                
+            - name: Install dependencies
+              run: npm install axios
