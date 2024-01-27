@@ -20,5 +20,5 @@ runs:
         shell: bash
         env:
           CONTEXT: "${{toJson(github.event)}}"
-          TEAMS: ${{secrets.TEAMS}}
+          TEAMS: ${{ inputs.teamsSecret }}
         run: node script.js
