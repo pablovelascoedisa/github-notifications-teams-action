@@ -39,6 +39,5 @@ Now, in your channel, you will receive a message with the following information 
 ## Sample
 
 ![image](https://github.com/pablovelascoedisa/github-notifications-teams-action/assets/125445128/af3ebf1f-abd9-43b8-839f-2a627c0d7ec2)
-
 --
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-%23FFDD00.svg?&style=for-the-badge&logo=ko-fi&logoColor=black)](https://www.buymeacoffee.com/pablovelasco)
