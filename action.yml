@@ -24,4 +24,7 @@ runs:
 
       - name: Run Docker container
         shell: bash
-        run: docker run --rm -e TEAMS_SECRET="${{ secrets.TEAMS_SECRET }}" github-notifier-teams
+        env:
+          CONTEXT: "${{toJson(github.event)}}"
+          TEAMS: ${{ inputs.teamsSecret }}
+        run: docker run --rm -e CONTEXT -e TEAMS_SECRET github-notifier-teams
