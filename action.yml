@@ -15,8 +15,6 @@ runs:
   using: "composite"
 
   steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
 
       - name: Build Docker image
         shell: bash
