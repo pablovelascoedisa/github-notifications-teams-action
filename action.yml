@@ -16,13 +16,18 @@ runs:
 
   steps:
 
-      - name: Build Docker image
+      - name: Config Node.js & npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
         shell: bash
-        run: docker build -t github-notifier-teams .
+        run: npm install axios
 
-      - name: Run Docker container
+      - name: Send teams message
         shell: bash
         env:
           CONTEXT: "${{toJson(github.event)}}"
           TEAMS: ${{ inputs.teamsSecret }}
-        run: docker run --rm -e CONTEXT -e TEAMS_SECRET github-notifier-teams
+        run: node script.js
