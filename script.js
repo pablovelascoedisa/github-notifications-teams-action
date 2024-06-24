@@ -3,21 +3,21 @@ const axios = require("axios");
 const ghContext = JSON.parse(process.env.CONTEXT)
 const teamsLink = process.env.TEAMS;
 
-const eventType = ghContext.issue? "issue" : "pr"
+const eventType = ghContext.issue ? "issue" : "pr"
 
 const generateMessageActions = () => {
-    
-    if(eventType === "issue"){
+
+    if (eventType === "issue") {
         return [
             {
-            "type": "Action.OpenUrl",
-            "title": "Check Issue",
-            "url": ghContext.issue.html_url,
-            "role": "button"
+                "type": "Action.OpenUrl",
+                "title": "Check Issue",
+                "url": ghContext.issue.html_url,
+                "role": "button"
             }
         ]
     }
-    if(eventType === "pr"){
+    if (eventType === "pr") {
         return [
             {
                 "type": "Action.OpenUrl",
@@ -46,13 +46,13 @@ const generateMessageFooter = () => {
         "type": "FactSet",
         "facts": [
             { "title": "📁 Repo: ", "value": ghContext.repository.name },
-            { "title": "🧑‍💻 Author: ", "value": eventType === "issue" ? ghContext.issue.user.login : ghContext.pull_request.user.login}
+            { "title": "🧑‍💻 Author: ", "value": eventType === "issue" ? ghContext.issue.user.login : ghContext.pull_request.user.login }
 
         ]
     }
-    
-    if(eventType !== "issue" && ghContext.pull_request.requested_reviewers.length > 0){
-        
+
+    if (eventType !== "issue" && ghContext.pull_request.requested_reviewers.length > 0) {
+
         const requestedReviewers = ghContext.pull_request.requested_reviewers;
         const reviewers = requestedReviewers.map(reviewer => reviewer.login).join(', ');
 
@@ -69,14 +69,14 @@ const generateMessageFooter = () => {
 const generateMessageBody = () => {
     let body = {
         "type": "TextBlock",
-        "text": eventType === "issue" ? ghContext.issue.body : ghContext.pull_request.body,
+        "text": process.env.CUSTOM_BODY ? process.env.CUSTOM_BODY : eventType === "issue" ? ghContext.issue.body : ghContext.pull_request.body,
         "wrap": true
     }
     return body
 }
 
 const generateMessageTitle = () => {
-    
+
     let cardTitle = eventType === "issue" ? '🛠️ Issue : ' + ghContext.issue.title : '🚀 PR: ' + ghContext.pull_request.title
 
     let title = {
@@ -115,8 +115,13 @@ const generateMessageImages = () => {
 
 const generateMessage = () => {
 
-    let cardSummary = eventType === "issue" ? '🛠️ Issue : ' + ghContext.issue.title : '🚀 PR: ' + ghContext.pull_request.title 
+    let cardSummary = ""
 
+    if (process.env.CUSTOM_TITLE) {
+        cardSummary = process.env.CUSTOM_TITLE
+    } else {
+        cardSummary = eventType === "issue" ? '🛠️ Issue : ' + ghContext.issue.title : '🚀 PR: ' + ghContext.pull_request.title
+    }
     let msg = {
         "type": "message",
         "summary": cardSummary,
@@ -130,9 +135,9 @@ const generateMessage = () => {
                     "body": [
                         generateMessageTitle(),
                         generateMessageBody(),
-                        generateMessageFooter(),
-                        generateMessageImages()
-                    ],
+                        process.env.SHOW_GIT_FOOTER ? generateMessageFooter() : null,
+                        process.env.SHOW_GIT_STATUS ? generateMessageImages() : null
+                    ].filter(item => item !== null),
                     "actions": generateMessageActions(),
                     "version": "1.5"
                 }
@@ -144,7 +149,7 @@ const generateMessage = () => {
 }
 
 
-teamsLink 
-    ? axios.post(teamsLink , generateMessage() )
-        .catch(error => {console.error(error)}) 
+teamsLink
+    ? axios.post(teamsLink, generateMessage())
+        .catch(error => { console.error(error) })
     : console.log("Configure Teams webhook link")

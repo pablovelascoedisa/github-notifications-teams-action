@@ -12,6 +12,14 @@ Send issue and pull request notifications into Teams Channel using this GitHub A
 - Go to repository settings -> Secrets -> Actions
 - Create new repository secret and paste __URL__ provided by Teams
 
+## Configuration
+
+| Key | Value | Required | Default |
+|-------------|-------------|-------------|-------------|
+| `Title` | Custom card title| **No** | - |
+| `Body` | Custom card body| **No** | - |
+| `show_git_footer` | True / False | **No** | True |
+| `show_git_status` | True / False | **No** | True |
 ## Usage
 Add this Action as a step to your project's GitHub Action Workflow file:
 

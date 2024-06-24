@@ -10,6 +10,20 @@ inputs:
   teamsSecret:
     description: 'Teams secret'
     required: true
+  title:
+    description: 'Custom card description'
+    required: false
+  body:
+    description: 'Custom card body'
+    required: false
+  show_git_footer:
+    description: 'Show footer actions'
+    required: false
+    default: 'true'
+  SHOW_GIT_STATUS:
+    description: 'Show status open or closed'
+    required: false
+    default: 'true'
   
 runs: 
   using: "composite"
@@ -33,6 +47,10 @@ runs:
       - name: Send teams message
         shell: bash
         env:
+          CUSTOM_TITLE: "${{inputs.title}}"
+          CUSTOM_BODY: "${{inputs.body}}"
+          SHOW_GIT_FOOTER: "${{inputs.show_git_footer}}"
+          SHOW_GIT_STATUS: "${{inputs.show_git_status}}"
           CONTEXT: "${{toJson(github.event)}}"
           TEAMS: ${{ inputs.teamsSecret }}
         run: |
