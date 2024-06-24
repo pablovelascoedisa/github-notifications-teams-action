@@ -28,6 +28,9 @@ Add this Action as a step to your project's GitHub Action Workflow file:
      uses: pablovelascoedisa/github-notifications-teams-action@V1.1.4
      with:
        teamsSecret: ${{ secrets.TEAMS }}
+       title: "Custom title"
+       body: "Custom body"
+       show_git_footer: "false"
 ```
 
 Now, in your channel, you will receive a message with the following information about your issue or pull request:
