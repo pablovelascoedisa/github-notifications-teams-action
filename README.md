@@ -25,7 +25,7 @@ Add this Action as a step to your project's GitHub Action Workflow file:
 
 ```yaml
    - name: Send notification
-     uses: pablovelascoedisa/github-notifications-teams-action@V1.1.4
+     uses: pablovelascoedisa/github-notifications-teams-action@V1.1.5
      with:
        teamsSecret: ${{ secrets.TEAMS }}
        title: "Custom title"
