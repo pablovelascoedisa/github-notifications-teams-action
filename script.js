@@ -3,7 +3,7 @@ const axios = require("axios");
 const ghContext = JSON.parse(process.env.CONTEXT)
 const teamsLink = process.env.TEAMS;
 
-const eventType = ghContext.issue ? "issue" : "pr"
+const eventType = ghContext.issue ? "issue" : ghContext.pull_request ? "pr" : "generic"
 
 const generateMessageActions = () => {
 
@@ -77,7 +77,7 @@ const generateMessageBody = () => {
 
 const generateMessageTitle = () => {
 
-    let cardTitle = eventType === "issue" ? '🛠️ Issue : ' + ghContext.issue.title : '🚀 PR: ' + ghContext.pull_request.title
+    let cardTitle = process.env.CUSTOM_TITLE ? process.env.CUSTOM_TITLE : eventType === "issue" ? '🛠️ Issue : ' + ghContext.issue.title : '🚀 PR: ' + ghContext.pull_request.title
 
     let title = {
         "type": "ColumnSet",
@@ -135,8 +135,8 @@ const generateMessage = () => {
                     "body": [
                         generateMessageTitle(),
                         generateMessageBody(),
-                        process.env.SHOW_GIT_FOOTER ? generateMessageFooter() : null,
-                        process.env.SHOW_GIT_STATUS ? generateMessageImages() : null
+                        process.env.SHOW_GIT_FOOTER && eventType !== "generic" ? generateMessageFooter() : null,
+                        process.env.SHOW_GIT_STATUS && eventType !== "generic" ? generateMessageImages() : null
                     ].filter(item => item !== null),
                     "actions": generateMessageActions(),
                     "version": "1.5"
